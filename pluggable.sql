@@ -1,0 +1,27 @@
+create user
+CREATE USER re_plsqlauca IDENTIFIED BY auca;
+GRANT ALL PRIVILEGES TO re_plsqlauca;
+
+--create pdb
+SHOW con_name;
+CONNECT SYS/becca123 AS SYSDBA;
+ALTER SESSION SET container = CDB$ROOT;
+CREATE PLUGGABLE DATABASE re_to_delete_pdb
+  ADMIN USER re_plsqlauca IDENTIFIED BY auca
+  FILE_NAME_CONVERT = ('C:\ORACLE\ORADATA\ORCL\PDBSEED\', 'C:\ORACLE\ORADATA\ORCL\PDBSEED\re_to_delete_pdb\');
+
+
+after creation this is how you connecto to pdb
+ALTER SESSION SET CONTAINER = CDB$ROOT;
+CONNECT SYS/becca123 AS SYSDBA;
+ALTER PLUGGABLE DATABASE re_to_delete_pdb OPEN;
+ALTER SESSION SET CONTAINER = re_to_delete_pdb;
+ALTER SESSION SET CONTAINER = re_to_delete_pdb;
+--
+--delete pdb
+CONNECT SYS/becca123 AS SYSDBA;
+ALTER SESSION SET CONTAINER = CDB$ROOT;
+ALTER PLUGGABLE DATABASE re_to_delete_pdb CLOSE IMMEDIATE;
+DROP PLUGGABLE DATABASE re_to_delete_pdb INCLUDING DATAFILES;
+SELECT con_id, name, open_mode FROM v$containers;
+
